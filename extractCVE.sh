@@ -40,6 +40,7 @@ do
 	fi
 
 	echo "$CVEID,$found" >> "$2"
+	echo "Outputted to $2"
 
 done
 
