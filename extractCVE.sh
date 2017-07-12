@@ -29,7 +29,7 @@ for file; do
 
 	for CVEID in "${CVE[@]}" 
 	do
-	#	echo $CVEID
+		echo $CVEID
 		year=( $(echo $CVEID |cut -d '-' -f 2 ) )
 	#	echo $year
 		xmlFileName="nvdcve-2.0-$year.xml"
@@ -44,6 +44,11 @@ for file; do
 			fi
 		fi
 		startLine=( $(grep -n "$CVEID" $xmlFileName | cut -d ':' -f 1) )
+		if [ -z startLine ]; then
+			echo "CVEID was not found!"
+			continue
+		fi
+		
 		range=( $(tail -n +$startLine $xmlFileName | grep -n '</entry>' | cut -d ':' -f 1) )
 		endLine=$((startLine+range-1))
 	#	echo $startLine
