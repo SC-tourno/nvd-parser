@@ -45,7 +45,7 @@ for file; do
 		fi
 		startLine=( $(grep -n "$CVEID" $xmlFileName | cut -d ':' -f 1) )
 		if [ -z startLine ]; then
-			echo "CVEID was not found!"
+			echo "$CVEID was not found!"
 			continue
 		fi
 		
