@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # Assume $1 is input csv file
+# $2 is output file
 # Check if xml files are present. If not wget them from nvd website
 filtered_lines=( $(grep "CVE" $1 | cut -d ',' -f 1,3 | sed s/\'//g) )   
 CVE=( $(grep "CVE" $1 | cut -d ',' -f 3 | sed s/\'//g | sort -u) ) > /dev/null
@@ -34,7 +35,7 @@ do
 		found='True' # matching line is NOT empty, ergo a match was found
 	fi
 
-	echo "$CVEID,$found" >> "PATCH_INFO_$1"
+	echo "$CVEID,$found" >> "$2"
 
 done
 
