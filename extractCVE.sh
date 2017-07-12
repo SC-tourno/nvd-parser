@@ -6,6 +6,10 @@
 filtered_lines=( $(grep "CVE" $1 | cut -d ',' -f 1,3 | sed s/\'//g) )   
 CVE=( $(grep "CVE" $1 | cut -d ',' -f 3 | sed s/\'//g | sort -u) ) > /dev/null
 
+if [ -f $2 ]; then
+	rm -f $2
+fi
+
 for CVEID in "${CVE[@]}"
 do
 #	echo $CVEID
