@@ -1,24 +1,22 @@
-#!/bin/sh
+#!/bin/bash
 
 # Usage: ./extractCVE.sh <input1> <output>
 # can have multiple input files
 # last argument is always output file
 
-for lastArg; do :; done # get the last argument of the command line
-echo "Output to $lastArg"
+for output; do :; done # get the last argument of the command line. Last argument = output
+echo "Output to $output"
 
-if [ -f $lastArg ]; then
-	rm -f $lastArg
+if [ -f $output ]; then
+	rm -f $output
 fi
 
 for file; do
-	if [ "$file" == "$lastArg" ]; then
+	if [ "$file" == "$output" ]; then
 		break
 	fi
-	#filtered_lines=( $(grep "CVE" $file | cut -d ',' -f 1,3 | sed s/\'//g) )   
 	echo "Reading $file"
 
-	#grep -Po "CVE-\d{4}-\d{4}" $file | cut -d ',' -f 3 | sort -u
 	CVE=( $(grep -Po "CVE-\d{4}-\d{4}" $file | cut -d ',' -f 3 | sort -u) ) > /dev/null
 
 
@@ -51,21 +49,18 @@ for file; do
 		
 		range=( $(tail -n +$startLine $xmlFileName | grep -n '</entry>' | cut -d ':' -f 1) )
 		endLine=$((startLine+range-1))
-	#	echo $startLine
-	#	echo $endLine
 
 		ARG1='VENDOR_ADVISORY'
 		ARG2='PATCH'
 
 		matchingLine=( $(sed -n -e "$startLine,$endLine s/$ARG1/&/p" -e "$startLine,$endLine s/$ARG2/&/p" $xmlFileName) )
-	#	echo "$matchingLine"
 
 		found='False'
 		if [ ! -z "$matchingLine" ]; then
 			found='True' # matching line is NOT empty, ergo a match was found
 		fi
 
-		echo "$CVEID,$found" >> "$lastArg"
+		echo "$CVEID,$found" >> "$output"
 
 	done
 
