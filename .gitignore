@@ -1,0 +1,9 @@
+*.swp
+presentation/
+cve_entries/
+data/
+a.out
+*.xml
+__pycache__/
+*.csv
+*.CSV

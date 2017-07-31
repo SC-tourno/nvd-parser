@@ -4,14 +4,17 @@ import csv
 import unittest
 
 def readInPatchInfo(inputFile):
-    "Reads in the CSV file containing CVE identifier in the first column and boolean value indicating patch availability in the second column. \
+    "Reads in the CSV file containing CVE identifier in the first column and boolean value indicating patch availability in the second column, and boolean value indicating a restart is necessary in the third column. \
     Returns dictionary that contains the CVE identifier as the key and the path availability boolean value as the dictionary value. \
     "
     CVEPatchdic = dict()
     with open(inputFile, 'r') as inFile:
         reader = csv.reader(inFile)
         for row in reader:
-            CVEPatchdic[row[0]] = (row[1] == 'True')
+#            patchRestart = (row[1] == 'True', row[2] == 'True')  
+            patchRestart = (row[1], row[2])  
+            print(patchRestart)
+            CVEPatchdic[row[0]] = patchRestart
     return CVEPatchdic    
 
 class PatchInfoReaderTests(unittest.TestCase):
