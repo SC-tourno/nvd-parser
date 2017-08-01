@@ -12,7 +12,6 @@ search_for_vuln_products () {
 	__startLine=$1
 	__endLine=$2
 	sed -n -e "${__startLine},${__endLine}p" $xmlFileName | grep '<vuln:product>' | cut -d ':'  -f 3-8 | cut -d "/" -f 2 
-	#| sed -e 's/</;/' -e 's/\n//' > 
 }
 
 search_for_vuln_vendors () {
@@ -30,17 +29,8 @@ search_for_microsoft_vuln (){
 	if [ ! -z "$__contains_microsoft" ]; then
 		# cve affects microsoft product
 		# look through MS database
-#		echo "$__contains_microsoft"		
 		__Bulletin="BulletinSearch.csv"
-#		echo "Searching for $CVEID"
-#		grep "$CVEID" $__Bulletin
-#__restart=( $(awk -v pat="$CVEID" -F, 'pat{print NR-1}' $__Bulletin) ) { print $((NF-1))}' $__Bulletin) )
-		__restart=$(grep  "$CVEID" $__Bulletin | grep -o -m 1 "Yes\|Maybe\|No")
-#		if [[  "$__restart" == "Yes" ]]; then
-#			__restart="True"
-#		eli
-#			__restart="?"
-#		fi
+		__restart=$(grep  "$CVEID" $__Bulletin | grep -o -m 1 "Yes\|No")
 		echo "$__restart"
 	fi
 }
